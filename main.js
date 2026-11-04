@@ -277,6 +277,7 @@ function home() {
     return `<i class="${v >= 60 ? 'l3' : v >= 20 ? 'l2' : v ? 'l1' : ''} ${i === 0 ? 'today' : ''}" title="${dayKey(t - i)}: ${v}"></i>`; }).join('');
 
   $view.innerHTML = `
+    <div class="home-top">
     <div class="card hero" style="--pc:${u.color}">
       <div>
         <div class="eyebrow">${allDone ? 'コース修了' : `いまのユニット ・ ${u.n} / ${UNITS.length} ・ ${esc(PHASES[u.phase].name)}`}</div>
@@ -287,7 +288,7 @@ function home() {
       <a class="btn" href="#/u/${u.n}/${ns.id}">${stepDone(u, 'learn') || doneCount(u) ? '続ける' : 'はじめる'}: ${esc(ns.name)} →</a>
     </div>
 
-    <div class="grid g-main" style="margin-top:14px">
+    <div class="side-pair">
       <div class="card">
         <h2>今日の復習</h2>
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
@@ -303,6 +304,7 @@ function home() {
         <div class="stat"><b>${learned('p') + learned('i') + learned('v')}<small>/${phraseAll}</small></b><span>フレーズ・熟語</span></div>
         <div class="stat"><b>${settled}</b><span>定着した語句</span></div>
       </div>
+    </div>
     </div>
 
     <div class="sec-title">ロードマップ <small>左から右へ。各ユニットは ① 文法 → ② 単語 → ③ フレーズ → ④ 話す → ⑤ テスト</small></div>
@@ -351,7 +353,7 @@ function course() {
   $view.innerHTML = `<p class="lead">中学英文法 ${GRAMMAR.length} 項目・よく使う単語 1000 語・会話フレーズと熟語 ${IDIOM_ITEMS.length + Object.values(SCENE).reduce((a, s) => a + s.items.length, 0)} 個・句動詞 ${PHRASALS.length} 個を、会話で早く使える順に ${UNITS.length} ユニットへ。どこから始めてもいいが、上から順にやると前のユニットの文法と単語が次で使われる。</p>
     ${roadmap(curUnit().n)}
     ${PHASES.map((p, pi) => `<div class="sec-title" style="color:${p.color}">フェーズ ${pi + 1} ${esc(p.name)} <small>${esc(p.desc)}</small></div>
-      <div class="grid g2">${UNITS.filter((u) => u.phase === pi).map((u) => `<a class="card ucard" href="#/u/${u.n}" style="--pc:${u.color}">
+      <div class="grid g2 g-wide4">${UNITS.filter((u) => u.phase === pi).map((u) => `<a class="card ucard" href="#/u/${u.n}" style="--pc:${u.color}">
         <div class="ucard__head"><span class="dot ${unitDone(u) ? 'done' : ''}">${unitDone(u) ? '✓' : u.n}</span><h3>${esc(u.title)}</h3><span class="pips">${STEPS.map((s) => `<i class="${stepDone(u, s.id) ? 'on' : ''}"></i>`).join('')}</span></div>
         <ul>
           <li><b>文法</b> ${u.g.map((g) => esc(G[g].title)).join('・')}</li>
